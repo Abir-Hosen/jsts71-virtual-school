@@ -10,6 +10,9 @@ import { UserService } from './user/user.service';
 import { QuestionModule } from './question/question.module';
 import { ExamModule } from './exam/exam.module';
 import { datasource } from './config/config.service';
+import { CourseController } from './course/course.controller';
+import { ExamController } from './exam/exam.controller';
+import { QuestionController } from './question/question.controller';
 
 @Module({
   imports: [TypeOrmModule.forRoot(datasource), UserModule, CourseModule, QuestionModule, ExamModule],
@@ -22,9 +25,10 @@ export class AppModule implements NestModule {
       .apply(LoggerMiddleware)
       .exclude(
         { path: 'user/sign_up', method: RequestMethod.POST },
-        { path: 'user/sign_in', method: RequestMethod.POST }
+        { path: 'user/sign_in', method: RequestMethod.POST },
+        { path: 'user/check_token', method: RequestMethod.POST }
       )
-      .forRoutes(UserController);
+      .forRoutes(UserController, CourseController, ExamController, QuestionController);
   }
 
 }

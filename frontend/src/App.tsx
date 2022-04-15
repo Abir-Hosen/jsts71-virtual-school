@@ -14,15 +14,23 @@ import SignUp from './features/sign_up/sign-up';
 import SignIn from './features/sign_in/sign-in';
 import Exam from './features/exam/exam';
 import Question from './features/question/question';
+import { validateToken } from './common/redux/resources/authResources';
 
 function App(props: any) {
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const authInfo = useSelector((state: RootStateOrAny) => state.authInfo)
+  
 
   useEffect(() => {
-    authInfo.userInfo == null? navigate('/sign-in'): navigate('/')
+    let token = authInfo.userInfo == null ? 'no token' : authInfo.userInfo.valid == true? authInfo.userInfo.Bearer:'no token'
+    console.log(token)
+    dispatch(validateToken({token: token}))
+  }, [])
+
+  useEffect(() => {
+    authInfo.userInfo == null? navigate('/sign-in'): authInfo.userInfo.valid? navigate('/'): navigate('/sign-in')
   }, [authInfo])
 
   return (

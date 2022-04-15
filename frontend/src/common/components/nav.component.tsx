@@ -25,8 +25,8 @@ function NavBar() {
                 <Nav.Item eventKey="3"><Link to="/exam">Take Exam</Link></Nav.Item>
             </Nav>
             <Nav pullRight>
-                <Dropdown title={authInfo.userInfo?authInfo.userInfo.user_data.name:'no name found'} placement="bottomEnd">
-                    <Dropdown.Item eventKey="4">{authInfo.userInfo?authInfo.userInfo.user_data.email:'no email found'}</Dropdown.Item>
+                <Dropdown title={authInfo.userInfo==null? 'no name found': authInfo.userInfo.valid == true? authInfo.userInfo.user_data.name: 'no name found'} placement="bottomEnd">
+                    <Dropdown.Item eventKey="4">{authInfo.userInfo==null? 'no email found': authInfo.userInfo.valid == true? authInfo.userInfo.user_data.email: 'no email found'}</Dropdown.Item>
                     <Dropdown.Item eventKey="5"><Link to="/profile/profile-name">View Profile</Link></Dropdown.Item>
                     <Dropdown.Item eventKey="6"><Link to="/sign-up">Sign Up</Link></Dropdown.Item>
                     <Dropdown.Item eventKey="7"><Link to="/sign-in">Sign In</Link></Dropdown.Item>

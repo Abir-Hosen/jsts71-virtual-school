@@ -1,5 +1,6 @@
 export {
     signIn,
+    validateToken,
     saveAuthUser,
     clearState
 }

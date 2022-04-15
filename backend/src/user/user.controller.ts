@@ -74,7 +74,7 @@ export class UserController {
       await response.status(400)
       resp = err;
     }
-    
+
     console.log(resp)
     return resp;
   }
@@ -84,9 +84,19 @@ export class UserController {
     return null;
   }
 
-  @Put('check_token')
+  @Post('check_token')
   async check_token(@Body() userDto: UserDto, @Res({ passthrough: true }) response: Response) {
-    return null;
+    console.log('userDto.token: ', userDto.token)
+    let resp;
+    try {
+      resp = await this.userService.check_token(userDto);
+      await response.status((HttpStatus.OK))
+    } catch (err) {
+      await response.status(400)
+      resp = err;
+    }
+    console.log(resp)
+    return resp;
   }
 
 }

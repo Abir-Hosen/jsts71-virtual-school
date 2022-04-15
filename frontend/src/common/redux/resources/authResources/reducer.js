@@ -16,6 +16,13 @@ export const authInfo = (state = authInfoState, action) => {
                 break;
             case types.SIGN_IN_FAILED:
                 break;
+            case types.VALIDATE_TOKEN:
+                break;
+            case types.VALIDATE_TOKEN_SUCCESS:
+                draft.userInfo = payload
+                break;
+            case types.VALIDATE_TOKEN_FAILED:
+                break;
             default:
                 return state;
         }

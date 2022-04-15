@@ -40,10 +40,17 @@ export const apiMiddleware = () => (next) => (action) => {
         }
     }
 
+    // axios.defaults.headers.common['Authorization'] = `Bearer aaaa`
     axios.defaults.headers.common['Authorization'] = `Bearer ${store.getState().authInfo.userInfo?store.getState().authInfo.userInfo.Bearer:''}`
     return axios(requestObject)
         .then((res) => {
-            console.log(res)
+            // console.log(res.data.valid)
+            // if (!res.data.valid) {
+            //     next({
+            //         type: 'AUTH/VALIDATE_TOKEN_SUCCESS',
+            //         payload: { msg: 'not valid user', valid: false }
+            //     });
+            // }
             next({
                 type: `${action.type}_SUCCESS`,
                 payload: res.data,
@@ -53,6 +60,8 @@ export const apiMiddleware = () => (next) => (action) => {
             successMessage && console.log(successMessage);
         })
         .catch((error) => {
+
+            console.log(error)
 
             let errorMsg = ''
             if (error.response) {

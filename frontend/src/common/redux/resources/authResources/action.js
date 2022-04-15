@@ -15,6 +15,20 @@ export const signIn = (payload) => ({
     },
 });
 
+export const validateToken = (payload) => ({
+    type: types.VALIDATE_TOKEN,
+    payload: {
+        path: `user/check_token`,
+        method: 'POST',
+        data: payload
+    },
+    meta: {
+        api: true,
+        successMessage: 'Token is valid',
+        errorMessage: "Token is not valid",
+    },
+});
+
 export const saveAuthUser = (payload) => ({
     type: types.SAVE_USER_INFO,
     payload: payload,
