@@ -5,5 +5,6 @@ export class CourseDto {
   name: string;
   teacher: User;
   student: User[];
+  student_id: number;
 }
 

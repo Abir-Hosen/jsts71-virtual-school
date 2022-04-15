@@ -9,46 +9,69 @@ function Dashboard() {
 
     const dispatch = useDispatch()
     const userInfo = useSelector((state: RootStateOrAny) => state.userInfo)
-    // const {allUser}:any = userInfo
+    const authInfo = useSelector((state: RootStateOrAny) => state.authInfo)
 
     useEffect(() => {
         dispatch(fetchAllUser())
     }, [])
 
-    const columns = [
-        {
-            name: 'Name',
-            selector: (row: any) => row.name,
-        },
-        {
-            name: 'User Name',
-            selector: (row: any) => row.user_name,
-        },
-        {
-            name: 'Email',
-            selector: (row: any) => row.email,
-        },
-        {
-            name: 'Role',
-            selector: (row: any) => row.role,
-        },
-        {
-            name: 'Action',
-            selector: (row: any) => <ButtonToolbar>
-                <Button color="red" appearance="subtle">Delete</Button>
-                <Button color="orange" appearance="subtle">Deactivate</Button>
-            </ButtonToolbar>,
-        },
-    ];
+    var columns
+
+    if (authInfo.role === 'admin') {
+        columns = [
+            {
+                name: 'Name',
+                selector: (row: any) => row.name,
+            },
+            {
+                name: 'User Name',
+                selector: (row: any) => row.user_name,
+            },
+            {
+                name: 'Email',
+                selector: (row: any) => row.email,
+            },
+            {
+                name: 'Role',
+                selector: (row: any) => row.role,
+            },
+            {
+                name: 'Action',
+                selector: (row: any) => <ButtonToolbar>
+                    <Button color="red" appearance="subtle">Delete</Button>
+                    <Button color="orange" appearance="subtle">Deactivate</Button>
+                </ButtonToolbar>,
+            },
+        ];
+    } else {
+        columns = [
+            {
+                name: 'Name',
+                selector: (row: any) => row.name,
+            },
+            {
+                name: 'User Name',
+                selector: (row: any) => row.user_name,
+            },
+            {
+                name: 'Email',
+                selector: (row: any) => row.email,
+            },
+            {
+                name: 'Role',
+                selector: (row: any) => row.role,
+            }
+        ];
+    }
 
     return (
         <>
             <DataTable
                 title='All User'
                 columns={columns}
-                data={userInfo.allUser?userInfo.allUser:[]}
+                data={userInfo.allUser ? userInfo.allUser : []}
             />
-            <Divider/>
+            <Divider />
         </>
     );
 }

@@ -3,7 +3,7 @@ import * as types from './types';
 
 const courseInfoState = {
     allCourse: null,
-    added: false,
+    change: false,
     userCourse: null,
     teacherCourse: null,
     selectTeacherCourse: []
@@ -16,7 +16,7 @@ export const courseInfo = (state = courseInfoState, action) => {
             case types.SAVE_COURSE:
                 break;
             case types.SAVE_COURSE_SUCCESS:
-                draft.added = true
+                draft.change = !state.change
                 break;
             case types.SAVE_COURSE_FAILED:
                 break;
@@ -30,7 +30,7 @@ export const courseInfo = (state = courseInfoState, action) => {
             case types.TAKE_COURSE:
                 break;
             case types.TAKE_COURSE_SUCCESS:
-                draft.added = true
+                draft.change = !state.change
                 break;
             case types.TAKE_COURSE_FAILED:
                 break;

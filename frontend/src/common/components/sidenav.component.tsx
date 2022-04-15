@@ -16,7 +16,7 @@ function SideNav() {
 
     useEffect(() => {
         dispatch(fetchAllCourse())
-    }, [courseInfo.added])
+    }, [courseInfo.change, authInfo])
 
     const addCourse = () => {
         let payload = {
@@ -26,45 +26,62 @@ function SideNav() {
         dispatch(saveCourse(payload))
     }
 
-    const takeCourses = (id:any) => {
+    const takeCourses = (id: any) => {
         let payload = {
             "id": id,
-            "student": authInfo.userInfo ? [authInfo.userInfo.user_data.id] : null,
+            "student_id": authInfo.userInfo ? [authInfo.userInfo.user_data.id] : null,
         }
         dispatch(takeCourse(payload))
     }
 
-    const columns = [
-        {
-            name: 'Id',
-            selector: (row: any) => row.id,
-        },
-        {
-            name: 'Name',
-            selector: (row: any) => row.name,
-        },
-        {
-            name: 'Action',
-            selector: (row: any) => <ButtonToolbar>
-                <Button color="green" appearance="subtle" onClick={() => takeCourses(row.id)}>Take</Button>
-            </ButtonToolbar>,
-        },
-    ];
+    var columns
+
+    if (authInfo.role === 'student') {
+        columns = [
+            {
+                name: 'Id',
+                selector: (row: any) => row.id,
+            },
+            {
+                name: 'Name',
+                selector: (row: any) => row.name,
+            },
+            {
+                name: 'Action',
+                selector: (row: any) => <ButtonToolbar>
+                    <Button color="green" appearance="subtle" onClick={() => takeCourses(row.id)}>Take</Button>
+                </ButtonToolbar>,
+            },
+        ];
+    } else {
+
+        columns = [
+            {
+                name: 'Id',
+                selector: (row: any) => row.id,
+            },
+            {
+                name: 'Name',
+                selector: (row: any) => row.name,
+            },
+        ];
+    }
 
     return (
         <div style={{ paddingLeft: "1vw" }}>
-            <Form fluid>
-                <Form.Group controlId="course-1">
-                    <Form.ControlLabel>Course Name</Form.ControlLabel>
-                    <Form.Control name="course" onChange={(e: any) => setCoursename(e)} />
-                </Form.Group>
-                <Form.Group>
-                    <ButtonToolbar>
-                        <Button color="green" appearance="ghost" onClick={addCourse}>Add Course</Button>
-                    </ButtonToolbar>
-                </Form.Group>
-            </Form >
-            <Divider />
+            {authInfo.role === 'teacher' ? <>
+                <Form fluid>
+                    <Form.Group controlId="course-1">
+                        <Form.ControlLabel>Course Name</Form.ControlLabel>
+                        <Form.Control name="course" onChange={(e: any) => setCoursename(e)} />
+                    </Form.Group>
+                    <Form.Group>
+                        <ButtonToolbar>
+                            <Button color="green" appearance="ghost" onClick={addCourse}>Add Course</Button>
+                        </ButtonToolbar>
+                    </Form.Group>
+                </Form >
+                <Divider /></> : ''}
             <DataTable
                 title="All Courses"
                 columns={columns}

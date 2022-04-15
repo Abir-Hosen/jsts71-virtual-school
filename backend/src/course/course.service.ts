@@ -7,7 +7,7 @@ import { Course } from './course.model';
 
 @Injectable()
 export class CourseService {
-  
+
   constructor(
     @InjectRepository(Course)
     private repository: Repository<Course>,
@@ -15,7 +15,7 @@ export class CourseService {
     private userRepository: Repository<User>,
   ) { }
 
-  async save_course(course: Course): Promise<Course> {
+  async save_course(course: CourseDto) {
     return await this.repository.save(course)
   }
 
@@ -23,24 +23,28 @@ export class CourseService {
     return await this.repository.find()
   }
 
-  async fetch_teacher_course(id:number) {
-    return await this.repository.find({where:{
-      teacher:id
-    }})
+  async fetch_teacher_course(id: number) {
+    return await this.repository.find({
+      where: {
+        teacher: id
+      }
+    })
   }
-  
-  async fetch_course_by_user(id:number) {
-    let user_ex = await this.userRepository.find({id:id})
+
+  async fetch_course_by_user(id: number) {
+    let user_ex = await this.userRepository.find({ id: id })
     return user_ex[0]
   }
-  
+
   async take_course(course: CourseDto) {
-    let course_ex = await this.repository.findOne(course.id)
-    course.student.forEach(async (student)=>{
-      let user_ex = await this.userRepository.findOne(student)
-      course_ex.student.push(user_ex)
-    })
-    return await this.repository.save(course_ex)
+    let course_ex = await this.repository.find({ id: course.id })
+    let user_ex = await this.userRepository.find({ id: course.student_id })
+    user_ex[0].courses.push(course_ex[0])
+    console.log('user_ex: ', user_ex, course_ex[0])
+
+    this.userRepository.save(user_ex)
+    // await this.repository.save(course_ex)
+    return ''
   }
 
 }

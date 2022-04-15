@@ -12,7 +12,7 @@ export class CourseController {
   async create_course(@Body() courseDto: CourseDto, @Res({ passthrough: true }) response: Response) {
     let resp;
     try {
-      resp = await this.courseService.save_course(<Course>courseDto)
+      resp = await this.courseService.save_course(courseDto)
     } catch (err) {
       await response.status(400)
       resp = err;

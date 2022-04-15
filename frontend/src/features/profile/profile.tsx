@@ -20,7 +20,7 @@ function Profile() {
 
     useEffect(() => {
         dispatch(fetchUserCourses(authInfo.userInfo ? authInfo.userInfo.user_data.id : 0))
-        setName(courseInfo.userCourse.name)
+        setName(courseInfo.userCourse ? courseInfo.userCourse.name : 'No Name')
     }, [courseInfo.added])
 
 
@@ -82,7 +82,7 @@ function Profile() {
                                     :
                                 </FlexboxGrid.Item>
                                 <FlexboxGrid.Item colspan={6}>
-                                    {courseInfo.userCourse.name}
+                                    {courseInfo.userCourse ? courseInfo.userCourse.name : 'No Name'}
                                 </FlexboxGrid.Item>
                             </FlexboxGrid>
                         </List.Item>
@@ -95,7 +95,7 @@ function Profile() {
                                     :
                                 </FlexboxGrid.Item>
                                 <FlexboxGrid.Item colspan={6}>
-                                    {courseInfo.userCourse.user_name}
+                                    {courseInfo.userCourse ? courseInfo.userCourse.user_name : 'No user name'}
                                 </FlexboxGrid.Item>
                             </FlexboxGrid>
                         </List.Item>
@@ -108,20 +108,20 @@ function Profile() {
                                     :
                                 </FlexboxGrid.Item>
                                 <FlexboxGrid.Item colspan={6}>
-                                    {courseInfo.userCourse.email}
+                                    {courseInfo.userCourse ? courseInfo.userCourse.email : 'No email'}
                                 </FlexboxGrid.Item>
                             </FlexboxGrid>
                         </List.Item>
                     </List>
                 </Panel>
-                <Panel header="User Courses">
-                    <DataTable
-                        columns={columns}
-                        data={courseInfo.userCourse ? courseInfo.userCourse.courses : []}
-                    />
-                </Panel>
+                {authInfo.role === 'student' ?
+                    <Panel header="User Courses">
+                        <DataTable
+                            columns={columns}
+                            data={courseInfo.userCourse ? courseInfo.userCourse.courses : []}
+                        />
+                    </Panel> : ''}
                 <Panel header="Update User Info">
-
                     <Form fluid style={{ width: "500px", justifyContent: "center", margin: "auto" }}>
                         <Form.Group controlId="name-1">
                             <Form.ControlLabel>Name</Form.ControlLabel>
@@ -137,9 +137,7 @@ function Profile() {
                 </Panel>
 
                 <Panel header="Update Password">
-
                     <Form fluid style={{ width: "500px", justifyContent: "center", margin: "auto" }}>
-
                         <Form.Group controlId="password-1">
                             <Form.ControlLabel>Old Password</Form.ControlLabel>
                             <Form.Control name="password" type="password" autoComplete="off" onChange={(e: any) => setPassword(e)} />

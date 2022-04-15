@@ -21,16 +21,16 @@ function App(props: any) {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const authInfo = useSelector((state: RootStateOrAny) => state.authInfo)
-  
+
 
   useEffect(() => {
-    let token = authInfo.userInfo == null ? 'no token' : authInfo.userInfo.valid == true? authInfo.userInfo.Bearer:'no token'
+    let token = authInfo.userInfo == null ? 'no token' : authInfo.userInfo.valid == true ? authInfo.userInfo.Bearer : 'no token'
     console.log(token)
-    dispatch(validateToken({token: token}))
+    dispatch(validateToken({ token: token }))
   }, [])
 
   useEffect(() => {
-    authInfo.userInfo == null? navigate('/sign-in'): authInfo.userInfo.valid? navigate('/'): navigate('/sign-in')
+    authInfo.userInfo == null ? navigate('/sign-in') : authInfo.userInfo.valid ? navigate('/') : navigate('/sign-in')
   }, [authInfo])
 
   return (
@@ -43,14 +43,17 @@ function App(props: any) {
           <Content>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/profile/:profile-name" element={<Profile />} />
-              <Route path="/question" element={<Question />} />
-              <Route path="/exam" element={<Exam />} />
+              {authInfo.role !== 'none' ?
+                <Route path="/profile/:profile-name" element={<Profile />} /> : ''}
+              {authInfo.role === 'teacher' ?
+                <Route path="/question" element={<Question />} /> : ''}
+              {authInfo.role === 'student' ?
+                <Route path="/exam" element={<Exam />} /> : ''}
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/sign-in" element={<SignIn />} />
             </Routes>
           </Content>
-          <Sidebar style={{width:"30vw"}}>
+          <Sidebar style={{ width: "30vw" }}>
             <SideNav />
           </Sidebar>
         </Container>

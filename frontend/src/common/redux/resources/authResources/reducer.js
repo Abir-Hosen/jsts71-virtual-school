@@ -3,6 +3,7 @@ import * as types from './types';
 
 const authInfoState = {
     userInfo: null,
+    role: 'none'
 }
 
 export const authInfo = (state = authInfoState, action) => {
@@ -13,6 +14,7 @@ export const authInfo = (state = authInfoState, action) => {
                 break;
             case types.SIGN_IN_SUCCESS:
                 draft.userInfo = payload
+                draft.role = payload.user_data ? payload.user_data.role : 'none'
                 break;
             case types.SIGN_IN_FAILED:
                 break;
@@ -20,6 +22,7 @@ export const authInfo = (state = authInfoState, action) => {
                 break;
             case types.VALIDATE_TOKEN_SUCCESS:
                 draft.userInfo = payload
+                draft.role = payload.user_data ? payload.user_data.role : 'none'
                 break;
             case types.VALIDATE_TOKEN_FAILED:
                 break;
