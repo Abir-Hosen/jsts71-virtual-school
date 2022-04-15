@@ -58,7 +58,6 @@ export class CourseController {
       await response.status(400)
       resp = err;
     }
-    console.log(resp)
     return resp;
   }
 
@@ -66,14 +65,12 @@ export class CourseController {
   @Get('fetch_course_by_user/:id')
   async fetch_course_by_user(@Param() params, @Res({ passthrough: true }) response: Response) {
     let resp;
-    console.log(params.id)
     try {
       resp = await this.courseService.fetch_course_by_user(params.id)
       await response.status((HttpStatus.OK))
     } catch (err) {
       await response.status(400)
       resp = err;
-      console.log(resp)
     }
 
     return resp;

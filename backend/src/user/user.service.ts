@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,16 +15,22 @@ export class UserService implements OnModuleInit {
     private usersRepository: Repository<User>,
   ) { }
 
+  
+  private readonly logger = new Logger(UserService.name);
+
   async sign_up(user: UserDto): Promise<User> {
+    this.logger.log('Sign up for user');
     user.password = await this.encriptPassword(user.password)
     return await this.usersRepository.save(user)
   }
 
   async get_all() {
+    this.logger.log('Getting all user');
     return await this.usersRepository.find()
   }
 
   async sign_in(user: UserDto): Promise<any> {
+    this.logger.log('Sign in for user');
     const userExists = await User.findOne({
       user_name: user.user_name,
       isActive: true,
@@ -33,7 +39,7 @@ export class UserService implements OnModuleInit {
     const isMatch = await bcrypt.compare(user.password, userExists.password);
     if (isMatch) {
       const currentDate = new Date();
-      const timestamp = currentDate.getTime() + 100 * 60000;
+      const timestamp = currentDate.getTime() + 10 * 60000;
 
       var user_data = {
         id: userExists.id,
@@ -49,22 +55,20 @@ export class UserService implements OnModuleInit {
   }
 
   async update_profile(userDto: UserDto) {
-    console.log(userDto)
+    this.logger.log('Updating user . . .');
     return await this.usersRepository.save(userDto)
 
   }
 
   async update_password(user: UserDto) {
-
+    this.logger.log('Updating user password');
     const userExists = await User.findOne({
       id: user.id
     })
     if (userExists === undefined) return { msg: 'user not found' }
     const isMatch = await bcrypt.compare(user.password, userExists.password);
     if (isMatch) {
-      console.log("userExists")
       userExists.password = await this.encriptPassword(user.new_password)
-      console.log(userExists)
       return await this.usersRepository.save(userExists)
     }
     else {
@@ -74,9 +78,10 @@ export class UserService implements OnModuleInit {
   }
 
   async check_token(user: UserDto) {
+    
+    this.logger.log('Checking user token validity');
     try {
       let token = user.token
-      console.log('token: ',token)
       let buff = await Buffer.from(token, 'base64');
       let data = await JSON.parse(buff.toString('ascii'))
 
@@ -86,7 +91,7 @@ export class UserService implements OnModuleInit {
 
       if(!valid) return {msg: 'not valid user', valid: false};
 
-      const new_timestamp = currentDate.getTime() + 100 * 60000;
+      const new_timestamp = currentDate.getTime() + 10 * 60000;
 
       const userExists = await User.findOne({
         id: data.id
@@ -128,9 +133,9 @@ export class UserService implements OnModuleInit {
     const total = await this.usersRepository.count()
     if (total == 0) {
       await this.usersRepository.save(userEntity)
-      console.log(`Fresh Initialization! ... Abir Hosen Ashik ...\nAdmin Info -\nuser:admin, password:admin'`);
+      this.logger.log(`Fresh Initialization! ... Abir Hosen Ashik ...\nAdmin Info -\nuser:admin, password:admin'`);
     } else {
-      console.log('Admin Info -\nuser:admin, password:admin');
+      this.logger.log('Admin Info -\nuser:admin, password:admin');
     }
   }
 }

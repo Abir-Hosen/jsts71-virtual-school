@@ -13,9 +13,10 @@ import { datasource } from './config/config.service';
 import { CourseController } from './course/course.controller';
 import { ExamController } from './exam/exam.controller';
 import { QuestionController } from './question/question.controller';
+import { LoggerModule } from './config/config.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(datasource), UserModule, CourseModule, QuestionModule, ExamModule],
+  imports: [TypeOrmModule.forRoot(datasource), UserModule, CourseModule, QuestionModule, ExamModule, LoggerModule],
   controllers: [AppController],
   providers: [AppService],
 })

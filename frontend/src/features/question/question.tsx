@@ -31,7 +31,6 @@ function Question() {
             "course": course,
             "answer": answer
         }
-        console.log(payload)
         dispatch(saveQuestion(payload))
 
     }

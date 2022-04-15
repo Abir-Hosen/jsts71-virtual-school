@@ -39,13 +39,11 @@ export class UserController {
     let resp;
     try {
       resp = await this.userService.sign_in(userDto);
-      console.log(resp)
       await response.status((HttpStatus.OK))
     } catch (err) {
       await response.status(400)
       resp = err;
     }
-    console.log(resp)
     return resp;
   }
 
@@ -60,7 +58,6 @@ export class UserController {
       await response.status(400)
       resp = err;
     }
-    console.log(resp)
     return resp;
   }
 
@@ -69,14 +66,12 @@ export class UserController {
     let resp;
     try {
       resp = await this.userService.update_password(userDto);
-      console.log(resp)
       await response.status((HttpStatus.OK))
     } catch (err) {
       await response.status(400)
       resp = err;
     }
 
-    console.log(resp)
     return resp;
   }
 
@@ -86,20 +81,17 @@ export class UserController {
     let resp;
     try {
       resp = await this.userService.delete_profile(id);
-      console.log(resp)
       await response.status((HttpStatus.OK))
     } catch (err) {
       await response.status(400)
       resp = err;
     }
 
-    console.log(resp)
     return resp;
   }
 
   @Post('check_token')
   async check_token(@Body() userDto: UserDto, @Res({ passthrough: true }) response: Response) {
-    console.log('userDto.token: ', userDto.token)
     let resp;
     try {
       resp = await this.userService.check_token(userDto);
@@ -108,7 +100,6 @@ export class UserController {
       await response.status(400)
       resp = err;
     }
-    console.log(resp)
     return resp;
   }
 

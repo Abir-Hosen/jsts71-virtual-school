@@ -25,7 +25,6 @@ function App(props: any) {
 
   useEffect(() => {
     let token = authInfo.userInfo == null ? 'no token' : authInfo.userInfo.valid == true ? authInfo.userInfo.Bearer : 'no token'
-    console.log(token)
     dispatch(validateToken({ token: token }))
   }, [])
 

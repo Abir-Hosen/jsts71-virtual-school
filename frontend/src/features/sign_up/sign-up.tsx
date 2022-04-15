@@ -22,10 +22,7 @@ function SignUp() {
         name === "" || password === "" || username === "" || email === "" ?
             window.alert('Fill the form properly') : password.length < 4 ?
                 window.alert('password should be minimum 4 charecter')
-                : dispatch(saveUser(payload)); window.alert('Alert ms not seted! check network log user created or not!');
-
-
-
+                : dispatch(saveUser(payload)); window.alert('Alert is not set! check network log user created or not!');
     }
 
 

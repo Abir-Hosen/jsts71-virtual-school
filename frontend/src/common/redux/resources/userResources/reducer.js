@@ -25,7 +25,6 @@ export const userInfo = (state = userInfoState, action) => {
             case types.FETCH_ALL_USER:
                 break;
             case types.FETCH_ALL_USER_SUCCESS:
-                console.log(payload[0])
                 draft.allUser = payload
                 break;
             case types.FETCH_ALL_USER_FAILED:

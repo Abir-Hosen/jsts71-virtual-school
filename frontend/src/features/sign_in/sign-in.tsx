@@ -10,7 +10,6 @@ function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    console.log(username, password)
 
     const submit = () => {
 

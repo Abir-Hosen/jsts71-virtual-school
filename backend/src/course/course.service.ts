@@ -40,7 +40,6 @@ export class CourseService {
     let course_ex = await this.repository.find({ id: course.id })
     let user_ex = await this.userRepository.find({ id: course.student_id })
     user_ex[0].courses.push(course_ex[0])
-    console.log('user_ex: ', user_ex, course_ex[0])
 
     this.userRepository.save(user_ex)
     // await this.repository.save(course_ex)
