@@ -1,0 +1,5 @@
+export const SAVE_USER_INFO = 'AUTH/SAVE_USER_INFO';
+
+export const SIGN_IN = 'AUTH/SIGN_IN';
+export const SIGN_IN_SUCCESS = 'AUTH/SIGN_IN_SUCCESS';
+export const SIGN_IN_FAILED = 'AUTH/SIGN_IN_FAILED';
