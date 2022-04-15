@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { response, Response } from 'express';
 import { UserDto } from './user.dto';
 import { User } from './user.model';
@@ -60,6 +60,7 @@ export class UserController {
       await response.status(400)
       resp = err;
     }
+    console.log(resp)
     return resp;
   }
 
@@ -79,9 +80,21 @@ export class UserController {
     return resp;
   }
 
-  @Put('delete_profile/:id')
-  async delete_profile(@Param('id') id: string, @Res() response: Response) {
-    return null;
+  @Delete('delete_profile/:id')
+  async delete_profile(@Param('id') id: number, @Res() response: Response) {
+    
+    let resp;
+    try {
+      resp = await this.userService.delete_profile(id);
+      console.log(resp)
+      await response.status((HttpStatus.OK))
+    } catch (err) {
+      await response.status(400)
+      resp = err;
+    }
+
+    console.log(resp)
+    return resp;
   }
 
   @Post('check_token')

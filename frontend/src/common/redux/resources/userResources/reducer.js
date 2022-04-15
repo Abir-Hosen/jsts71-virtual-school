@@ -3,6 +3,7 @@ import * as types from './types';
 
 const userInfoState = {
     allUser: null,
+    change: true,
     success_message: '',
     error_message: ''
 }
@@ -35,10 +36,22 @@ export const userInfo = (state = userInfoState, action) => {
                 break;
             case types.UPDATE_USER_SUCCESS:
                 draft.success_message = successMessage
+                draft.change = !state.change
                 break;
             case types.UPDATE_USER_FAILED:
                 draft.error_message = errorMessage
                 break;
+
+            case types.DELETE_USER:
+                break;
+            case types.DELETE_USER_SUCCESS:
+                draft.change = !state.change
+                draft.success_message = successMessage
+                break;
+            case types.DELETE_USER_FAILED:
+                draft.error_message = errorMessage
+                break;
+
             case types.UPDATE_PASSWORD:
                 break;
             case types.UPDATE_PASSWORD_SUCCESS:

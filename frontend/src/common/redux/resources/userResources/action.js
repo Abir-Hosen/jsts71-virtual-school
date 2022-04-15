@@ -17,6 +17,20 @@ export const saveUser = (payload) => ({
 });
 
 
+export const deleteUser = (payload) => ({
+    type: types.DELETE_USER,
+    payload: {
+        path: `user/delete_profile/${payload}`,
+        method: 'DELETE',
+    },
+    meta: {
+        api: true,
+        successMessage: 'User deleted successfully',
+        errorMessage: "User coudn't be deleted",
+    },
+});
+
+
 export const fetchAllUser = () => ({
     type: types.FETCH_ALL_USER,
     payload: {

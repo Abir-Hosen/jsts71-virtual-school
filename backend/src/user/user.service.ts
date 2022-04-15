@@ -26,7 +26,8 @@ export class UserService implements OnModuleInit {
 
   async sign_in(user: UserDto): Promise<any> {
     const userExists = await User.findOne({
-      user_name: user.user_name
+      user_name: user.user_name,
+      isActive: true,
     })
     if (userExists === undefined) return { msg: 'user not found' }
     const isMatch = await bcrypt.compare(user.password, userExists.password);
@@ -39,6 +40,7 @@ export class UserService implements OnModuleInit {
         name: userExists.user_name,
         email: userExists.email,
         role: userExists.role,
+        isActive: userExists.isActive,
         validate_time: timestamp
       }
       return { valid: true, 'Bearer': Buffer.from(JSON.stringify(user_data)).toString('base64'), user_data }
@@ -47,6 +49,7 @@ export class UserService implements OnModuleInit {
   }
 
   async update_profile(userDto: UserDto) {
+    console.log(userDto)
     return await this.usersRepository.save(userDto)
 
   }
@@ -94,6 +97,7 @@ export class UserService implements OnModuleInit {
         name: userExists.user_name,
         email: userExists.email,
         role: userExists.role,
+        isActive: userExists.isActive,
         validate_time: new_timestamp
       }
       return { valid: true, 'Bearer': Buffer.from(JSON.stringify(user_data)).toString('base64'), user_data }
@@ -103,8 +107,8 @@ export class UserService implements OnModuleInit {
     }
   }
 
-  async delete_profile() {
-
+  async delete_profile(id:number) {
+    return  await this.usersRepository.delete(id)
   }
 
   async encriptPassword(password: string) {

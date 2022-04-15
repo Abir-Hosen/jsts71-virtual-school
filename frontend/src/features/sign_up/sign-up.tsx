@@ -13,14 +13,18 @@ function SignUp() {
     const [password, setPassword] = useState('')
 
     const submit = () => {
-        name === "" || password === "" || username === "" || email === "" ? window.alert('Fill the form properly') : password.length < 4 ? window.alert('password should be minimum 4 charecter') : console.log('ok')
         let payload = {
             "name": name,
             "email": email,
             "user_name": username,
             "password": password
         }
-        dispatch(saveUser(payload))
+        name === "" || password === "" || username === "" || email === "" ?
+            window.alert('Fill the form properly') : password.length < 4 ?
+                window.alert('password should be minimum 4 charecter')
+                : dispatch(saveUser(payload)); window.alert('Alert ms not seted! check network log user created or not!');
+
+
 
     }
 

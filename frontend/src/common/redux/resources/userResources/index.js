@@ -2,7 +2,8 @@ export {
     fetchAllUser,
     updateUser,
     updatePassword,
-    saveUser
+    saveUser,
+    deleteUser
 }
 from './action'
 

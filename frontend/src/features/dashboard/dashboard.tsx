@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { fetchAllUser } from '../../common/redux/resources/userResources';
+import { deleteUser, fetchAllUser, updateUser } from '../../common/redux/resources/userResources';
 
-import { Button, Divider, ButtonGroup, ButtonToolbar } from 'rsuite';
+import { Button, Divider, ButtonGroup, ButtonToolbar, Row } from 'rsuite';
 
 function Dashboard() {
 
@@ -13,7 +13,23 @@ function Dashboard() {
 
     useEffect(() => {
         dispatch(fetchAllUser())
-    }, [])
+    }, [userInfo.change])
+
+    const changeActivation = (row: any) => {
+        let payload = {
+            "id": row.id,
+            "isActive": !row.isActive,
+        }
+        dispatch(updateUser(payload))
+    }
+
+    const makeTeacher = (row: any) => {
+        let payload = {
+            "id": row.id,
+            "role": 'teacher',
+        }
+        dispatch(updateUser(payload))
+    }
 
     var columns
 
@@ -38,8 +54,11 @@ function Dashboard() {
             {
                 name: 'Action',
                 selector: (row: any) => <ButtonToolbar>
-                    <Button color="red" appearance="subtle">Delete</Button>
-                    <Button color="orange" appearance="subtle">Deactivate</Button>
+                    {row.role !== 'admin' ? <>
+                        {/* <Button color="red" appearance="subtle" onClick={() => dispatch(deleteUser(row.id))}>Delete</Button> */}
+                        <Button color="red" appearance="subtle" onClick={() => makeTeacher(row)}>Make Teacher</Button>
+                        {row.isActive ? <Button color="orange" appearance="subtle" onClick={() => changeActivation(row)}>Deactivate</Button> :
+                            <Button color="green" appearance="subtle" onClick={() => changeActivation(row)}>Activate</Button>}</> : ''}
                 </ButtonToolbar>,
             },
         ];
