@@ -5,6 +5,8 @@ const courseInfoState = {
     allCourse: null,
     change: false,
     userCourse: null,
+
+    examCourses: null,
     teacherCourse: null,
     selectTeacherCourse: []
 }
@@ -38,6 +40,12 @@ export const courseInfo = (state = courseInfoState, action) => {
                 break;
             case types.FETCH_USER_COURSE_SUCCESS:
                 draft.userCourse = payload
+                let s_data = []
+                payload.courses.forEach(async(element) => {
+                    await s_data.push({...element, label: element.name, value: element.id })
+                });
+                console.log(s_data)
+                draft.examCourses = s_data
                 break;
             case types.FETCH_USER_COURSE_FAILED:
                 break;

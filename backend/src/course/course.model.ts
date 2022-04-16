@@ -15,7 +15,7 @@ export class Course {
   @JoinColumn()
   teacher: User
 
-  @ManyToMany(() => Question, question => question.course, { eager: true })
+  @OneToMany(() => Question, question => question.course)
   question: Question[]
 
   @ManyToMany(() => User, user => user.courses, {

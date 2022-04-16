@@ -13,3 +13,29 @@ export const saveQuestion = (payload) => ({
         errorMessage: "Question coudn't be saved",
     },
 });
+
+export const fetchTeachersQuestion = (payload) => ({
+    type: types.FETCH_TEACHER_QUESTIONS,
+    payload: {
+        path: `question/all/${payload}`,
+        method: 'GET',
+    },
+    meta: {
+        api: true,
+        successMessage: 'Question fetch successfully',
+        errorMessage: "Question coudn't be fetch",
+    },
+});
+
+export const fetchCourseQuestion = (payload) => ({
+    type: types.FETCH_COURSES_QUESTIONS,
+    payload: {
+        path: `question/course/${payload}`,
+        method: 'GET'
+    },
+    meta: {
+        api: true,
+        successMessage: 'Course question fetch successfully',
+        errorMessage: "Course uestion coudn't be fetched",
+    },
+});

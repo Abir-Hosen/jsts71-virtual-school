@@ -16,8 +16,20 @@ export class QuestionService {
       return await this.repository.save(question)
   }
 
-  async get_all_questions() {
+  async get_all_questions(id: number) {
+    return await this.repository.find({where:{
+      teacher:{
+        id: id
+      }
+    }})
+  }
 
+  async get_course_questions(id: number) {
+    return await this.repository.find({where:{
+      course:{
+        id: id
+      }
+    }})
   }
 
 }

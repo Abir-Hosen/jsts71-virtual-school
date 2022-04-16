@@ -1,5 +1,7 @@
 export {
     saveQuestion,
+    fetchTeachersQuestion,
+    fetchCourseQuestion
 }
 from './action'
 

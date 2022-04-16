@@ -21,10 +21,10 @@ export class Question {
     @JoinColumn()
     teacher: User
 
-    @ManyToMany(() => Course, course => course.question, {
+    @ManyToOne(() => Course, course => course.question, {
         eager: false,
         cascade: true,
     })
-    @JoinTable()
-    course: Course[]
+    @JoinColumn()
+    course: Course
 }

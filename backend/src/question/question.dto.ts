@@ -8,5 +8,5 @@ export class QuestionDto {
   options: {};
   answer: string;
   teacher: User;
-  course: Course[];
+  course: Course;
 }
